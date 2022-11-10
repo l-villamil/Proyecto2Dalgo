@@ -174,3 +174,19 @@ while c < numeroDiccionarios[0]:
     c+=1
 
 
+
+def ordenPalabra(palabra1,palabra2):
+    centinela=False
+    while i<len(palabra1) and not centinela:
+        if palabra1[i]!=palabra2[2]:
+            centinela=True
+            registro=i
+        else:
+            i+=1
+            centinela=ordenPalabra(palabra1,palabra2)
+    return registro
+
+
+print(ordenPalabra("hola","holo"))
+
+        
