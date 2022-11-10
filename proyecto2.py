@@ -1,7 +1,7 @@
 import sys
 
 
-
+#commit prueba
 def funcionPrincipal(listaDiccionario):
     vertices = []
     for palabra in listaDiccionario:
