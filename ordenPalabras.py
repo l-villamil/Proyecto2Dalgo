@@ -32,5 +32,5 @@ def ordenPalabra(palabra1,palabra2):
             i+=1
     return centinela 
 
-print(ordenPalabra("alla","casa"))
+print(ordenPalabra("casoaasdfh","casoaasdfg"))
 

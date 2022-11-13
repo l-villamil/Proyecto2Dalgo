@@ -1,42 +1,25 @@
+#Daniel Villar González, 201923374
+#Leonidas Villamil, 202013910
+#Yesid Almanza, 201921773
+
 import sys
 
 
-#commit prueba
-def funcionPrincipal(listaDiccionario):
-    vertices = []
-    for palabra in listaDiccionario:
-        for letra in palabra: 
-            if letra not in vertices:
-                vertices.append(letra)
-    matriz = [-1]*len(vertices)
-    for i in range(0,len(vertices)):
-        matriz[0]=[-1]*len(vertices)
-    i = 0
-    j = 1
-    while i < len(listaDiccionario-1):
-        palabraI = listaDiccionario[i]
-        palabraJ = listaDiccionario[j]
-        k = 0
-        while k<len(palabraJ):
-            if palabraI[k]==palabraI[k]:
-                k += 1
-            else:
-                matriz[palabraI[k][palabraI[k]]]
-                k += 1
-
-
-
-
-    hayCiclos = DFS(vertices,ejes)
-    if hayCiclos:
-        return "ERROR"
+def ordenPalabra(palabra1,palabra2):
+    centinela=-1
+    extencion=0
+    if len(palabra1)>len(palabra2):
+         extencion=len(palabra1)-len(palabra2)+1
     else:
-        subgrafos = BFS(ejes)
-        salida = ''
-        for i in subgrafos:
-            salida += ''.join(i)
-    return salida
-
+         extencion=len(palabra1)
+    # print(extencion)
+    i=0
+    while i< extencion and centinela==-1:
+        if palabra1[i]!=palabra2[i]:
+            centinela=i
+        else:
+            i+=1
+    return centinela 
 
 
 def DFS(vertices,ejes):
@@ -154,6 +137,45 @@ def vertice(index:int,padre:int,color,distance,vecinos):
     }
     return vertice
 
+def funcionPrincipal(listaDiccionario):
+    vertices = []
+    for palabra in listaDiccionario:
+        for letra in palabra: 
+            if letra not in vertices:
+                vertices.append(letra)
+    matriz = [-1]*len(vertices)
+    for i in range(0,len(vertices)):
+        matriz[i]=[-1]*len(vertices)
+    dic = {}
+    for i in range(0,len(vertices)):
+        dic[vertices[i]] = i    
+    i = 0
+    while i<len(listaDiccionario):
+        j = i+1
+        while j<len(listaDiccionario):
+            palabra1 = listaDiccionario[i]
+            palabra2 = listaDiccionario[j]
+            posicion = ordenPalabra(palabra1, palabra2)
+            if posicion != -1:
+                letraAntes = palabra1[posicion]
+                letraDespues = palabra2[posicion]
+                val1 = dic[letraAntes]
+                val2 = dic[letraDespues]
+                matriz[int(val1)][int(val2)] = 1
+            j+=1
+        i+=1
+    hayCiclos = DFS(vertices,matriz)
+    if hayCiclos:
+        return "ERROR"
+    else:
+        subgrafos = BFS(matriz)
+        salida = ''
+        for i in range(0,len(subgrafos)):
+            for j in range(0,len(subgrafos[i])):
+                salida += ''.join((list(dic.keys())[list(dic.values()).index(subgrafos[i][j])]))        
+    return salida
+
+
 numeroDiccionarios=list(map(int, sys.stdin.readline().split()))
 c=0
 while c < numeroDiccionarios[0]:
@@ -173,20 +195,4 @@ while c < numeroDiccionarios[0]:
     print(salida)
     c+=1
 
-
-
-def ordenPalabra(palabra1,palabra2):
-    centinela=False
-    while i<len(palabra1) and not centinela:
-        if palabra1[i]!=palabra2[2]:
-            centinela=True
-            registro=i
-        else:
-            i+=1
-            centinela=ordenPalabra(palabra1,palabra2)
-    return registro
-
-
-print(ordenPalabra("hola","holo"))
-
-        
+    
